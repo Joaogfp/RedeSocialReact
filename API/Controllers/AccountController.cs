@@ -45,12 +45,14 @@ namespace API.Controllers
         {
             if (await _userManager.Users.AnyAsync(x => x.UserName == register.Username))
             {
-                return BadRequest("Username já está sendo utilizado!");
+                ModelState.AddModelError("username", "Username já está sendo utilizado!");
+                return ValidationProblem();
             }
 
             if (await _userManager.Users.AnyAsync(x => x.Email == register.Email))
             {
-                return BadRequest("Email já está sendo utilizado!");
+                ModelState.AddModelError("email", "Email já está sendo utilizado!");
+                return ValidationProblem();
             }
 
             var user = new AppUser
